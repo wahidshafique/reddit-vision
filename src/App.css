@@ -2,12 +2,19 @@
   text-align: center;
 }
 
+@import url(https://fonts.googleapis.com/css?family=Raleway);
+
+html * {
+  font-family: "Raleway" !important;
+}
+
 .App-logo {
   animation: App-logo-spin infinite 20s linear;
   height: 80px;
 }
 
 .App-header {
+  z-index: -99;
   background-color: #222;
   height: 150px;
   padding: 20px;
@@ -33,7 +40,77 @@
 
 .grid {
   display: grid;
-  grid-template-columns: 150px 150px 150px;
-  grid-template-rows: auto auto auto;
+  /* height: -15vh; */
+  width: 100vw;
+  justify-content: center;
+  align-content: center;
+  grid-template-columns: repeat(4, 25vmin);
+  grid-template-rows: repeat(5, 30vmin);
   grid-gap: 20px;
+}
+
+@media only screen and (max-width: 1000px) {
+  .grid {
+    grid-template-columns: repeat(1, 100vmin);
+    grid-template-rows: repeat(1, 30vmin);
+    grid-gap: 10px;
+  }
+}
+
+input,
+textarea {
+  padding: 9px;
+  border: solid 1px #e5e5e5;
+  outline: 0;
+  font: normal 13px/100% Verdana, Tahoma, sans-serif;
+  width: 100%;
+  background: #ffffff;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
+textarea {
+  width: 100%;
+  height: 150px;
+  line-height: 150%;
+}
+
+input:hover,
+textarea:hover,
+input:focus,
+textarea:focus {
+  border-color: #c9c9c9;
+}
+
+label {
+  margin-left: 0px;
+  color: #999999;
+}
+
+button,
+input[type="submit"] {
+  width: auto;
+  padding: 9px 15px;
+  background: #cccccc;
+  border: 0;
+  font-size: 14px;
+  color: #ffffff;
+}
+
+.styled-input {
+  margin-bottom: 20px;
+}
+
+.input-group {
+  margin: 0 auto;
+  width: 50%;
+}
+
+.white-text {
+  color: white;
+}
+
+.black-text {
+  color: black;
 }

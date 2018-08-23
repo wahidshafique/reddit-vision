@@ -1,4 +1,22 @@
 .post-card {
-  width: 100%;
+  border-radius: 50px;
+  display: flex;
+  align-items: center;
+  /* width: 100%; */
+  padding: 100px;
+}
+
+.post-card-header {
   padding: 20px;
+  background-color: #222;
+  color: white;
+  /* border-radius: 15px; */
+  /* height: auto; */
+}
+
+.post-title {
+}
+
+.hoverable:hover {
+  cursor: pointer;
 }

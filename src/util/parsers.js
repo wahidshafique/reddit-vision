@@ -1,14 +1,19 @@
 import * as rg from "../util/redditGets";
 
-var modHash = "0";
+let modHash = "0";
 
 const reduceDataChildren = (agg, child) => {
   //here I am contructing a slightly usable object with only the things I want
+  const childData = child.data;
   return [
     ...agg,
     {
-      title: child.data.title,
-      subreddit: child.data.subreddit
+      key: childData.name,
+      title: childData.title,
+      subreddit: childData.subreddit,
+      thumbnail: childData.thumbnail,
+      permalink: childData.permalink,
+      fullImg: childData.preview ? childData.preview.images[0].source.url : null
     }
   ];
 };

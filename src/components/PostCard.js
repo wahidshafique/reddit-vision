@@ -1,17 +1,23 @@
 import React, { Component } from "react";
 import "../css/PostCard.css";
 
-class App extends Component {
+class PostCard extends Component {
+  constructor(props) {
+    super(props);
+  }
   render() {
+    const { title, thumbnail, details } = this.props;
     return (
-      <div className="post-card">
-        <header className="App-header">
-          <h1 className="App-title">Title</h1>
-          <img src="https://via.placeholder.com/350x150" />
-        </header>
+      <div className="post-card-header">
+        <img
+          className="hoverable"
+          src={thumbnail}
+          onClick={() => this.props.toggleModal(true, details)}
+        />
+        <h4 className="post-title">{title}</h4>
       </div>
     );
   }
 }
 
-export default App;
+export default PostCard;
