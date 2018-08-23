@@ -157,6 +157,9 @@ class App extends Component {
           <h2 className="black-text">Search!</h2>
         </button>
         <br />
+        {this.state.filteredPosts.length === 0 && (
+          <img src="https://i.imgur.com/ucQrI.gif" />
+        )}
         <div className="grid">{this.createPostCards()}</div>
         <DetailsView
           details={this.state.currentDetails}
