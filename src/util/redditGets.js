@@ -1,6 +1,6 @@
 import dog from "../data/dog";
 
-let IS_MOCKED = true;
+let IS_MOCKED = false;
 
 export async function getSubject(subjectTitle, mocked = IS_MOCKED) {
   if (mocked) {

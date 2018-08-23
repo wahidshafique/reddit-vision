@@ -12,15 +12,17 @@ class DetailsView extends Component {
     return (
       <div className={modalClasses}>
         <div className="modal-content">
-          <div class="modal-header">
+          <div className="modal-header">
             <span
-              class="close"
+              className="close"
               onClick={() => this.props.toggleModal(false, {})}
             >
               &times;
             </span>
             <h2>
-              <a href={link}>{title}</a>
+              <a className="white-text" href={link}>
+                {title}
+              </a>
             </h2>
           </div>
           <img className="shown-img" src={fullImg} />
