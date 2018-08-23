@@ -5,7 +5,7 @@ class DetailsView extends Component {
     super(props);
   }
   render() {
-    const { title, link, fullImg } = this.props.details;
+    const { title, link, fullImg, ups } = this.props.details;
     const { isVisible } = this.props;
     const isVis = isVisible ? "modal-show" : "";
     const modalClasses = `modal ${isVis} `;
@@ -24,6 +24,7 @@ class DetailsView extends Component {
                 {title}
               </a>
             </h2>
+            <p>{ups} Upvotes!</p>
           </div>
           <img className="shown-img" src={fullImg} />
           <h3>

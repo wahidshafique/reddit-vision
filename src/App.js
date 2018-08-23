@@ -10,6 +10,7 @@ import Inputs from "./components/Inputs";
 import DetailsView from "./components/DetailsView";
 
 const DEFAULT_SUBJECT = "dog";
+const DEFAULT_REDDIT = "r/funny";
 
 class App extends Component {
   constructor() {
@@ -21,18 +22,21 @@ class App extends Component {
       staticDetails: {
         subReddits: []
       },
-      inputs: { subject: DEFAULT_SUBJECT }
+      inputs: { subreddit: DEFAULT_REDDIT, subject: DEFAULT_SUBJECT }
     };
   }
 
   componentDidMount() {
-    getParsedChildren(getSubject.bind(null, this.state.inputs.subject)).then(
-      res => {
-        this.setState({
-          filteredPosts: res
-        });
-      }
-    );
+    getParsedChildren(
+      getSubject.bind(null, {
+        subreddit: this.state.inputs.subreddit,
+        subjectTitle: this.state.inputs.subject
+      })
+    ).then(res => {
+      this.setState({
+        filteredPosts: res
+      });
+    });
 
     getParsedSubreddits().then(res => {
       this.setState({
@@ -52,7 +56,8 @@ class App extends Component {
         details: {
           title: post.title,
           link: `https://www.reddit.com/${post.permalink}`,
-          fullImg: post.fullImg
+          fullImg: post.fullImg,
+          ups: post.ups
         },
         toggleModal: this.toggleModal
       };
@@ -85,16 +90,19 @@ class App extends Component {
 
   handleSubmit = () => {
     console.log(this.state);
-    getParsedChildren(getSubject.bind(null, this.state.inputs.subject)).then(
-      res => {
-        console.log(res);
-        if (res) {
-          this.setState({
-            filteredPosts: res
-          });
-        }
+    getParsedChildren(
+      getSubject.bind(null, {
+        subreddit: this.state.inputs.subreddit,
+        subjectTitle: this.state.inputs.subject
+      })
+    ).then(res => {
+      console.log(res);
+      if (res) {
+        this.setState({
+          filteredPosts: res
+        });
       }
-    );
+    });
   };
 
   render() {
@@ -102,7 +110,9 @@ class App extends Component {
       <div className="App">
         <header className="App-header">
           <img src={logo} className="App-logo" alt="logo" />
-          <h1 className="App-title">Welcome to r/aww</h1>
+          <h1 className="App-title">
+            Welcome to {this.state.inputs.subreddit}
+          </h1>
         </header>
         <Inputs
           inputs={this.state.inputs}

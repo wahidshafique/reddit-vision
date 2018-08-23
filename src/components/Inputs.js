@@ -13,8 +13,8 @@ export default class Inputs extends React.Component {
         <select
           className="styled-input"
           type="text"
-          name="subReddit"
-          value={inputs.subReddit}
+          name="subreddit"
+          value={inputs.subreddit}
           onChange={this.handleChange}
         >
           {" "}

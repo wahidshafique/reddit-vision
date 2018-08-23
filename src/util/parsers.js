@@ -15,7 +15,10 @@ const reduceDataChildren = (agg, child) => {
       subreddit: childData.subreddit,
       thumbnail: childData.thumbnail,
       permalink: childData.permalink,
-      fullImg: childData.preview ? childData.preview.images[0].source.url : null
+      fullImg: childData.preview
+        ? childData.preview.images[0].source.url
+        : null,
+      ups: childData.ups
     }
   ];
 };
@@ -23,9 +26,9 @@ const reduceDataChildren = (agg, child) => {
 export async function getParsedChildren(callbackAsyncFunc) {
   const res = await callbackAsyncFunc();
   //if (res.data.modhash !== modHash) { OKAY< this diff check does not work the way I thought it would, subsequent calls have the same hash
-    modHash = res.data.modhash;
-    const dataChildren = res.data.children;
-    return dataChildren.reduce(reduceDataChildren, []);
+  modHash = res.data.modhash;
+  const dataChildren = res.data.children;
+  return dataChildren.reduce(reduceDataChildren, []);
   //} else {
   //  console.warn("the id is the same for subsequent calls");
   //  return null;
