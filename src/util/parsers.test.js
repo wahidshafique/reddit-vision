@@ -6,3 +6,9 @@ test("should return parsed object", async () => {
   console.log("parsed obj is ", data);
   return expect(data);
 });
+
+test("should return parsed sr object", async () => {
+  const data = await p.getParsedSubreddits();
+  console.log("parsed sr obj is ", data);
+  return expect(data);
+});

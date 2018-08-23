@@ -58,6 +58,7 @@ html * {
 }
 
 input,
+select,
 textarea {
   padding: 9px;
   border: solid 1px #e5e5e5;

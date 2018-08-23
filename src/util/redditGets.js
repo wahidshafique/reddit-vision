@@ -13,3 +13,8 @@ export async function getSubject(subjectTitle, mocked = IS_MOCKED) {
   );
   return res.json(); // assuming that the api generally looks the same across the board
 }
+
+export async function getListOfSubreddits() {
+  const res = await fetch(`https://www.reddit.com/reddits.json`);
+  return res.json();
+}

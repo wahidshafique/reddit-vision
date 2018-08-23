@@ -6,16 +6,25 @@ export default class Inputs extends React.Component {
   };
 
   render() {
+    const { subReddits } = this.props;
+    console.log(subReddits);
     return (
       <div className="input-group">
         <h2 className="white-text">subreddit</h2>
-        <input
+        <select
           className="styled-input"
           type="text"
           name="subreddit"
           //   value={this.props.searchOptions.subReddit}
           onChange={this.handleChange}
-        />
+        >
+          {" "}
+          {subReddits.map(s => (
+            <option key={s.key} value={s.prefixedName}>
+              {s.prefixedName}
+            </option>
+          ))}
+        </select>
         <h2 className="white-text">subject</h2>
         <input
           className="styled-input"

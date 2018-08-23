@@ -5,7 +5,7 @@ import "./App.css";
 import "./css/Modal.css";
 
 import { getSubject } from "./util/redditGets";
-import { getParsedChildren } from "./util/parsers";
+import { getParsedChildren, getParsedSubreddits } from "./util/parsers";
 import Inputs from "./components/Inputs";
 import DetailsView from "./components/DetailsView";
 
@@ -13,16 +13,31 @@ class App extends Component {
   constructor() {
     super();
     this.state = {
+      curSubject: "dog",
       filteredPosts: [],
       showDetailView: false,
-      currentDetails: {}
+      currentDetails: {},
+      staticDetails: {
+        subReddits: []
+      }
     };
   }
 
   componentDidMount() {
-    getParsedChildren(getSubject.bind(null, "dog")).then(res => {
+    getParsedChildren(getSubject.bind(null, this.state.curSubject)).then(
+      res => {
+        this.setState({
+          filteredPosts: res
+        });
+      }
+    );
+
+    getParsedSubreddits().then(res => {
       this.setState({
-        filteredPosts: res
+        staticDetails: {
+          ...this.state.staticDetails,
+          subReddits: res
+        }
       });
     });
   }
@@ -59,7 +74,7 @@ class App extends Component {
           <img src={logo} className="App-logo" alt="logo" />
           <h1 className="App-title">Welcome to r/aww</h1>
         </header>
-        <Inputs />
+        <Inputs subReddits={this.state.staticDetails.subReddits} />
         <br />
         <div className="grid">{this.createPostCards()}</div>
         <DetailsView
