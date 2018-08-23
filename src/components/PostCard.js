@@ -7,11 +7,7 @@ class App extends Component {
       <div className="post-card">
         <header className="App-header">
           <h1 className="App-title">Title</h1>
-          <img
-            src="https://via.placeholder.com/350x150"
-            width="350"
-            height="150"
-          />
+          <img src="https://via.placeholder.com/350x150" />
         </header>
       </div>
     );
