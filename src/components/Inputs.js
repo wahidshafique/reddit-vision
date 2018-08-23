@@ -2,20 +2,19 @@ import React from "react";
 
 export default class Inputs extends React.Component {
   handleChange = e => {
-    console.log(e);
+    this.props.updateInputs(e.currentTarget.name, e.currentTarget.value);
   };
 
   render() {
-    const { subReddits } = this.props;
-    console.log(subReddits);
+    const { subReddits, inputs } = this.props;
     return (
       <div className="input-group">
         <h2 className="white-text">subreddit</h2>
         <select
           className="styled-input"
           type="text"
-          name="subreddit"
-          //   value={this.props.searchOptions.subReddit}
+          name="subReddit"
+          value={inputs.subReddit}
           onChange={this.handleChange}
         >
           {" "}
@@ -30,19 +29,9 @@ export default class Inputs extends React.Component {
           className="styled-input"
           type="text"
           name="subject"
-          //   value={this.props.searchOptions.subject}
+          value={inputs.subject}
           onChange={this.handleChange}
         />
-
-        <button
-          className="styled-input"
-          type="text"
-          name="subject"
-          //   value={this.props.searchOptions.subject}
-          onClick={this.handleSubmit}
-        >
-          <h2 className="black-text">Search!</h2>
-        </button>
       </div>
     );
   }

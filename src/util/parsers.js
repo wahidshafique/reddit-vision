@@ -22,13 +22,14 @@ const reduceDataChildren = (agg, child) => {
 
 export async function getParsedChildren(callbackAsyncFunc) {
   const res = await callbackAsyncFunc();
-  if (res.data.modhash !== modHash) {
+  //if (res.data.modhash !== modHash) { OKAY< this diff check does not work the way I thought it would, subsequent calls have the same hash
     modHash = res.data.modhash;
     const dataChildren = res.data.children;
     return dataChildren.reduce(reduceDataChildren, []);
-  } else {
-    return null;
-  }
+  //} else {
+  //  console.warn("the id is the same for subsequent calls");
+  //  return null;
+  //}
 }
 
 const reduceDataSubreddits = (agg, red) => {
