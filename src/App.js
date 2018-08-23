@@ -12,6 +12,8 @@ import DetailsView from "./components/DetailsView";
 const DEFAULT_SUBJECT = "dog";
 const DEFAULT_REDDIT = "r/funny";
 
+//higher level stuff-> originally I was thinking of using context or HOC's to create variations of components. I definately could have used pure functional components more (force of habit), but I chose to make it fairly straightforward w/ minimal deps (functional libraries also stand out as I noticed some repeating, for a bigger application I would def consider those strategies)
+
 class App extends Component {
   constructor() {
     super();
@@ -22,7 +24,11 @@ class App extends Component {
       staticDetails: {
         subReddits: []
       },
-      inputs: { subreddit: DEFAULT_REDDIT, subject: DEFAULT_SUBJECT }
+      inputs: { subreddit: DEFAULT_REDDIT, subject: DEFAULT_SUBJECT },
+      inputsErrored: {
+        areThey: false,
+        reason: ""
+      }
     };
   }
 
@@ -88,8 +94,29 @@ class App extends Component {
     );
   };
 
+  checkIfValid(inputVal) {
+    if (inputVal.length > 0) {
+      this.setState({
+        inputsErrored: {
+          areThey: false,
+          reason: ""
+        }
+      });
+      return true;
+    }
+    this.setState({
+      inputsErrored: {
+        areThey: true,
+        reason: "You must not enter a blank"
+      }
+    });
+    return false;
+  }
+
   handleSubmit = () => {
-    console.log(this.state);
+    if (!this.checkIfValid(this.state.inputs.subject)) {
+      return;
+    }
     getParsedChildren(
       getSubject.bind(null, {
         subreddit: this.state.inputs.subreddit,
@@ -119,6 +146,9 @@ class App extends Component {
           subReddits={this.state.staticDetails.subReddits}
           updateInputs={this.updateInputs}
         />
+        {this.state.inputsErrored.areThey && (
+          <h3 className="error-text">{this.state.inputsErrored.reason}</h3>
+        )}
         <button
           className="styled-input"
           type="text"

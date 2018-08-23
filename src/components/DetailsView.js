@@ -26,7 +26,9 @@ class DetailsView extends Component {
             </h2>
             <p>{ups} Upvotes!</p>
           </div>
-          <img className="shown-img" src={fullImg} />
+          {(fullImg !== "" || !fullImg) && (
+            <img className="shown-img" src={fullImg} />
+          )}
           <h3>
             {fullImg === null && "The image might be a video or a gif :("}
           </h3>

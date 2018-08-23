@@ -115,3 +115,8 @@ input[type="submit"] {
 .black-text {
   color: black;
 }
+
+.error-text {
+  font-weight: bold;
+  color: red;
+}
