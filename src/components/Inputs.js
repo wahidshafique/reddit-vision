@@ -1,6 +1,8 @@
 import React from "react";
+import { connect } from "react-redux";
+import { fetchPosts } from "../actions/postActions";
 
-export default class Inputs extends React.Component {
+class Inputs extends React.Component {
   handleChange = e => {
     this.props.updateInputs(e.currentTarget.name, e.currentTarget.value);
   };
@@ -32,7 +34,27 @@ export default class Inputs extends React.Component {
           value={inputs.subject}
           onChange={this.handleChange}
         />
+
+        <button
+          className="styled-input"
+          type="text"
+          onClick={() => {
+            if (this.props.handleSubmit()) {
+              console.log("good");
+              this.props.fetchPosts(inputs.subreddit, inputs.subject);
+            }
+          }}
+        >
+          <h2 className="black-text">Search!</h2>
+        </button>
       </div>
     );
   }
 }
+
+const mapStateToProps = state => ({ filteredPosts: state.posts.filteredPosts });
+
+export default connect(
+  mapStateToProps,
+  { fetchPosts }
+)(Inputs);
