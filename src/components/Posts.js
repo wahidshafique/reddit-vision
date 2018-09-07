@@ -37,7 +37,7 @@ class Posts extends Component {
     return this.props.filteredPosts.length === 0 ? (
       <img src="https://i.imgur.com/ucQrI.gif" />
     ) : (
-      this.createPostCards()
+      <div className="grid">{this.createPostCards()}</div>
     );
   }
 }
