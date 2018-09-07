@@ -24,8 +24,8 @@ class Posts extends Component {
           link: `https://www.reddit.com/${post.permalink}`,
           fullImg: post.fullImg,
           ups: post.ups
-        },
-        toggleModal: this.toggleModal
+        }
+        //toggleModal: this.toggleModal
       };
       return <PostCard key={post.key} {..._props} />;
     };

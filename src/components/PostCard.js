@@ -1,5 +1,11 @@
 import React, { Component } from "react";
+import { connect } from "react-redux";
+import PropTypes from "prop-types";
+
+import { toggleModal, setModalDetails } from "../actions/modalActions";
+
 import "../css/PostCard.css";
+import { areEqualShallow } from "../util/parsers";
 
 class PostCard extends Component {
   constructor(props) {
@@ -12,9 +18,17 @@ class PostCard extends Component {
       <div className="post-card-header">
         {(thumbnail !== "" || !thumbnail) && (
           <img
+            alt="foo"
             className="hoverable"
             src={thumbnail}
-            onClick={() => this.props.toggleModal(true, details)}
+            onClick={() => {
+              this.props.toggleModal(this.props.currentModalVisible);
+              if (!areEqualShallow(details, this.props.currentModalDetails)) {
+                this.props.setModalDetails(details);
+              } else {
+                console.log("you opened the same post");
+              }
+            }}
           />
         )}
         {thumbnail === "" || !thumbnail ? (
@@ -31,4 +45,16 @@ class PostCard extends Component {
   }
 }
 
-export default PostCard;
+PostCard.propTypes = {
+  currentModalState: PropTypes.bool.isRequired
+};
+
+const mapStateToProps = state => ({
+  currentModalVisible: state.modal.currentModalVisible,
+  currentModalDetails: state.modal.currentModalDetails
+});
+
+export default connect(
+  mapStateToProps,
+  { toggleModal, setModalDetails }
+)(PostCard);

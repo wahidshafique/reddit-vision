@@ -20,8 +20,8 @@ class App extends Component {
     super();
     this.state = {
       //filteredPosts: [],
-      showDetailView: false,
-      currentDetails: {},
+      //showDetailView: false,
+      //currentDetails: {},
       staticDetails: {
         subReddits: []
       },
@@ -44,12 +44,12 @@ class App extends Component {
     });
   }
 
-  toggleModal = (onOrOff, deets) => {
-    this.setState({
-      showDetailView: onOrOff,
-      currentDetails: deets
-    });
-  };
+  // toggleModal = (onOrOff, deets) => {
+  //   this.setState({
+  //     showDetailView: onOrOff,
+  //     currentDetails: deets
+  //   });
+  // };
 
   updateInputs = (whichInput, toWhat) => {
     this.setState(
@@ -110,9 +110,9 @@ class App extends Component {
           <br />
           <Posts inputs={this.state.inputs} />
           <DetailsView
-            details={this.state.currentDetails}
-            isVisible={this.state.showDetailView}
-            toggleModal={this.toggleModal}
+          //details={this.state.currentDetails}
+          // isVisible={this.state.showDetailView}
+          // toggleModal={this.toggleModal}
           />
         </div>
       </Provider>

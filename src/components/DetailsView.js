@@ -1,13 +1,16 @@
 import React, { Component } from "react";
+import PropTypes from "prop-types";
+import { connect } from "react-redux";
+import { toggleModal } from "../actions/modalActions";
 
 class DetailsView extends Component {
   constructor(props) {
     super(props);
   }
   render() {
-    const { title, link, fullImg, ups } = this.props.details;
-    const { isVisible } = this.props;
-    const isVis = isVisible ? "modal-show" : "";
+    const { title, link, fullImg, ups } = this.props.currentModalDetails;
+    const { currentModalVisible } = this.props;
+    const isVis = currentModalVisible ? "modal-show" : "";
     const modalClasses = `modal ${isVis} `;
     return (
       <div className={modalClasses}>
@@ -15,7 +18,9 @@ class DetailsView extends Component {
           <div className="modal-header">
             <span
               className="close"
-              onClick={() => this.props.toggleModal(false, {})}
+              onClick={() =>
+                this.props.toggleModal(this.props.currentModalVisible)
+              }
             >
               &times;
             </span>
@@ -38,4 +43,16 @@ class DetailsView extends Component {
   }
 }
 
-export default DetailsView;
+DetailsView.propTypes = {
+  currentModalDetails: PropTypes.object.isRequired
+};
+
+const mapStateToProps = state => ({
+  currentModalVisible: state.modal.currentModalVisible,
+  currentModalDetails: state.modal.currentModalDetails
+});
+
+export default connect(
+  mapStateToProps,
+  { toggleModal }
+)(DetailsView);
