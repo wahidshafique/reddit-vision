@@ -1,7 +1,8 @@
 import dog from "../data/dog";
 
-let IS_MOCKED = false;
-//there is def some rate limiting going on on reddits part
+let IS_MOCKED = process.env.REACT_APP_MOCK_API || false;
+
+console.log(process.env);
 
 export async function getSubject(
   { subreddit = "r/funny", subjectTitle = "dog" } = {},

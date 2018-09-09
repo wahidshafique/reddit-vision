@@ -5,7 +5,7 @@ import PropTypes from "prop-types";
 import { toggleModal, setModalDetails } from "../actions/modalActions";
 
 import "../css/PostCard.css";
-import { areEqualShallow } from "../util/parsers";
+import { areEqualShallow } from "../util/helperFunctions";
 
 class PostCard extends Component {
   constructor(props) {

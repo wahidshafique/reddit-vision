@@ -11,6 +11,7 @@ import DetailsView from "./components/DetailsView";
 import logo from "./logo.svg";
 import "./App.css";
 import "./css/Modal.css";
+import { getListOfSubreddits } from "./util/redditGets";
 
 const DEFAULT_SUBJECT = "dog";
 const DEFAULT_REDDIT = "r/funny";
@@ -34,7 +35,7 @@ class App extends Component {
   }
 
   componentDidMount() {
-    getParsedSubreddits().then(res => {
+    getParsedSubreddits(getListOfSubreddits).then(res => {
       this.setState({
         staticDetails: {
           ...this.state.staticDetails,

@@ -1,54 +1,63 @@
-import * as rg from "../util/redditGets";
+import _ from "lodash/fp";
 
-const reduceDataChildren = (agg, child) => {
-  //here I am contructing a slightly usable object with only the things I want
-  const childData = child.data;
-  return [
-    ...agg,
-    {
-      key: childData.name,
-      title: childData.title,
-      subreddit: childData.subreddit,
-      thumbnail: childData.thumbnail,
-      permalink: childData.permalink,
-      fullImg: childData.preview
-        ? childData.preview.images[0].source.url
-        : null,
-      ups: childData.ups
-    }
-  ];
+const getDataRoot = _.curry(d => d.data);
+const reduceData = cb => (acc, data) => [...acc, cb(data)];
+
+const pullUsableRedditData = cb => childData => {
+  const _child = cb(childData);
+  return {
+    key: _child.name,
+    title: _child.title,
+    subreddit: _child.subreddit,
+    thumbnail: _child.thumbnail,
+    permalink: _child.permalink,
+    fullImg: _child.preview ? _child.preview.images[0].source.url : null,
+    ups: _child.ups
+  };
 };
 
-export async function getParsedChildren(callbackAsyncFunc) {
+const pullUsableSubRedditData = cb => srData => {
+  const _sr = cb(srData);
+  return {
+    key: _sr.name,
+    realName: _sr.display_name,
+    prefixedName: _sr.display_name_prefixed,
+    desc: _sr.public_description
+  };
+};
+
+// const generalRedditReduce = _.compose( hmm: TODO: add placeholder here
+//   reduceData,
+//   _.compose(
+//     _,
+//     getDataRoot
+//   )
+// );
+
+const reduceDataChildren = _.compose(
+  reduceData,
+  _.compose(
+    pullUsableRedditData,
+    getDataRoot
+  )
+);
+
+const reduceDataSubreddits = _.compose(
+  reduceData,
+  _.compose(
+    pullUsableSubRedditData,
+    getDataRoot
+  )
+);
+
+const asyncRedditDataCallback = async (callbackAsyncFunc, reduceTo) => {
   const res = await callbackAsyncFunc();
   const dataChildren = res.data.children;
-  return dataChildren.reduce(reduceDataChildren, []);
-}
-
-const reduceDataSubreddits = (agg, red) => {
-  const srData = red.data;
-  return [
-    ...agg,
-    {
-      key: srData.name,
-      realName: srData.display_name,
-      prefixedName: srData.display_name_prefixed,
-      desc: srData.public_description
-    }
-  ];
+  return dataChildren.reduce(reduceTo(), []); //assuming this is static
 };
 
-export async function getParsedSubreddits() {
-  const res = await rg.getListOfSubreddits();
-  const dataSr = res.data.children;
-  return dataSr.reduce(reduceDataSubreddits, []);
-}
+export const getParsedChildren = async cb =>
+  asyncRedditDataCallback(cb, reduceDataChildren);
 
-export function areEqualShallow(a, b) {
-  for (var key in a) {
-    if (a[key] !== b[key]) {
-      return false;
-    }
-  }
-  return true;
-}
+export const getParsedSubreddits = async cb =>
+  asyncRedditDataCallback(cb, reduceDataSubreddits);
