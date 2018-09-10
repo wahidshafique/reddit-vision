@@ -35,7 +35,6 @@ class Posts extends Component {
         <Row gutter={12} justify="center" type="flex">
           {this.createPostCards()}
         </Row>
-        }
       </React.Fragment>
     );
   }
