@@ -56,8 +56,8 @@ const asyncRedditDataCallback = async (callbackAsyncFunc, reduceTo) => {
   return dataChildren.reduce(reduceTo(), []); //assuming this is static
 };
 
-export const getParsedChildren = async cb =>
+export const getParsedChildren = cb =>
   asyncRedditDataCallback(cb, reduceDataChildren);
 
-export const getParsedSubreddits = async cb =>
+export const getParsedSubreddits = cb =>
   asyncRedditDataCallback(cb, reduceDataSubreddits);

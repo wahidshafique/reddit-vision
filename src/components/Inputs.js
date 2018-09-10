@@ -2,52 +2,135 @@ import React from "react";
 import { connect } from "react-redux";
 import { fetchPosts } from "../actions/postActions";
 
+import { Input } from "antd";
+import { Form, Select, Collapse } from "antd";
+
+const { Panel } = Collapse;
+const { Option } = Select;
+const FormItem = Form.Item;
+const Search = Input.Search;
+
+const DEFAULT_SUBJECT = "dog";
+const DEFAULT_REDDIT = "r/funny";
+
+const formItemLayout = {
+  labelCol: {
+    xs: { span: 24 },
+    sm: { span: 2 }
+  },
+  wrapperCol: {
+    xs: { span: 24 },
+    sm: { span: 22 }
+  }
+};
+
 class Inputs extends React.Component {
-  handleChange = e => {
-    this.props.updateInputs(e.currentTarget.name, e.currentTarget.value);
+  constructor() {
+    super();
+    this.state = {
+      inputs: { subreddit: DEFAULT_REDDIT, subject: DEFAULT_SUBJECT },
+
+      inputsErrored: {
+        areThey: false,
+        reason: ""
+      }
+    };
+  }
+
+  hydratePosts() {
+    this.props.setValidInputs(this.state.inputs);
+    this.props.fetchPosts(
+      this.state.inputs.subreddit,
+      this.state.inputs.subject
+    );
+  }
+
+  componentDidMount() {
+    this.hydratePosts();
+  }
+
+  updateInputs = (whichInput, toWhat) => {
+    this.setState(
+      {
+        inputs: {
+          ...this.state.inputs,
+          [whichInput]: toWhat
+        }
+      },
+      () => {
+        console.log("imps are ", this.state.inputs);
+      }
+    );
+  };
+
+  checkIfValid(inputVal) {
+    console.log(inputVal);
+    if (inputVal.length > 0) {
+      this.setState({
+        inputsErrored: {
+          areThey: false,
+          reason: ""
+        },
+        validInputs: {
+          ...this.state.inputs
+        }
+      });
+      return true;
+    }
+    this.setState({
+      inputsErrored: {
+        areThey: true,
+        reason: "You must not enter a blank"
+      }
+    });
+    return false;
+  }
+
+  handleSubmit = e => {
+    if (this.checkIfValid(e)) {
+      this.hydratePosts();
+    }
   };
 
   render() {
-    const { subReddits, inputs } = this.props;
+    const { subReddits } = this.props;
     return (
-      <div className="input-group">
-        <h2 className="white-text">subreddit</h2>
-        <select
-          className="styled-input"
-          type="text"
-          name="subreddit"
-          value={inputs.subreddit}
-          onChange={this.handleChange}
-        >
-          {" "}
-          {subReddits.map(s => (
-            <option key={s.key} value={s.prefixedName}>
-              {s.prefixedName}
-            </option>
-          ))}
-        </select>
-        <h2 className="white-text">subject</h2>
-        <input
-          className="styled-input"
-          type="text"
-          name="subject"
-          value={inputs.subject}
-          onChange={this.handleChange}
-        />
+      <Collapse bordered={false} defaultActiveKey="1">
+        <Panel key="1">
+          <Form style={{ padding: "30px" }}>
+            <FormItem {...formItemLayout} label="Subreddits">
+              <Select
+                // mode="multiple"
+                name="subreddit"
+                placeholder="None selected"
+                allowClear
+                value={this.state.inputs.subreddit}
+                onChange={val => this.updateInputs("subreddit", val)}
+              >
+                {subReddits.map(s => (
+                  <Option key={s.key} value={s.prefixedName}>
+                    {s.prefixedName}
+                  </Option>
+                ))}
+              </Select>
+            </FormItem>
 
-        <button
-          className="styled-input"
-          type="text"
-          onClick={() => {
-            if (this.props.handleSubmit()) {
-              console.log("good");
-              this.props.fetchPosts(inputs.subreddit, inputs.subject);
-            }
-          }}
-        >
-          <h2 className="black-text">Search!</h2>
-        </button>
-      </div>
+            <FormItem {...formItemLayout} label="Subject">
+              <Search
+                name="subject"
+                defaultValue={this.state.inputs.subject}
+                onChange={val => this.updateInputs("subject", val)}
+                onSearch={this.handleSubmit}
+                enterButton
+                size="large"
+              />
+            </FormItem>
+            {this.state.inputsErrored.areThey && (
+              <h3 className="error-text">{this.state.inputsErrored.reason}</h3>
+            )}
+          </Form>
+        </Panel>
+      </Collapse>
     );
   }
 }

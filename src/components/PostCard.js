@@ -4,43 +4,40 @@ import PropTypes from "prop-types";
 
 import { toggleModal, setModalDetails } from "../actions/modalActions";
 
-import "../css/PostCard.css";
+import { Card, Col } from "antd";
 import { areEqualShallow } from "../util/helperFunctions";
 
+const { Meta } = Card;
 class PostCard extends Component {
-  constructor(props) {
-    super(props);
-  }
   render() {
     const { title, thumbnail, details } = this.props;
     const { link } = this.props.details;
     return (
-      <div className="post-card-header">
-        {(thumbnail !== "" || !thumbnail) && (
-          <img
-            alt="foo"
-            className="hoverable"
-            src={thumbnail}
-            onClick={() => {
-              this.props.toggleModal(this.props.currentModalVisible);
-              if (!areEqualShallow(details, this.props.currentModalDetails)) {
-                this.props.setModalDetails(details);
-              } else {
-                console.log("you opened the same post");
-              }
-            }}
+      <Col span={6} xs={17} sm={10} md={8} lg={6} xl={4} gutter={4}>
+        <Card
+          hoverable
+          style={{ minWidth: "240px" }}
+          cover={<img alt="example" src={thumbnail} />}
+          onClick={() => {
+            this.props.toggleModal(this.props.currentModalVisible);
+            if (!areEqualShallow(details, this.props.currentModalDetails)) {
+              this.props.setModalDetails(details);
+            } else {
+              console.log("you opened the same post");
+            }
+          }}
+        >
+          <Meta
+            title={
+              thumbnail === "" || !thumbnail ? (
+                <a href={link}>{title}</a>
+              ) : (
+                <h5>{title}</h5>
+              )
+            }
           />
-        )}
-        {thumbnail === "" || !thumbnail ? (
-          <h2 className="post-title">
-            <a className="white-text" href={link}>
-              {title}
-            </a>
-          </h2>
-        ) : (
-          <h4 className="post-title">{title}</h4>
-        )}
-      </div>
+        </Card>
+      </Col>
     );
   }
 }
