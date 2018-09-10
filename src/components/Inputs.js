@@ -38,6 +38,7 @@ class Inputs extends React.Component {
   }
 
   hydratePosts() {
+    console.log(this.state);
     this.props.setValidInputs(this.state.inputs);
     this.props.fetchPosts(
       this.state.inputs.subreddit,
@@ -70,9 +71,6 @@ class Inputs extends React.Component {
         inputsErrored: {
           areThey: false,
           reason: ""
-        },
-        validInputs: {
-          ...this.state.inputs
         }
       });
       return true;
@@ -119,7 +117,9 @@ class Inputs extends React.Component {
               <Search
                 name="subject"
                 defaultValue={this.state.inputs.subject}
-                onChange={val => this.updateInputs("subject", val)}
+                onChange={event =>
+                  this.updateInputs("subject", event.currentTarget.value)
+                }
                 onSearch={this.handleSubmit}
                 enterButton
                 size="large"
