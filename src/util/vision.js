@@ -3,7 +3,8 @@ import { chunk } from "lodash";
 
 const MAX_REQUEST_QUOTA = 16;
 
-const annonateEndpoint = `https://vision.googleapis.com/v1/images:annotate?key=${KEY}`;
+const annonateEndpoint = `https://vision.googleapis.com/v1/images:annotate?key=${KEY ||
+  process.env.KEY}`;
 
 const singleReq = (img, maxResultsPer) => ({
   image: {
