@@ -1,10 +1,17 @@
-import { KEY } from "../secrets";
 import { chunk } from "lodash";
+
+let KEY;
+try {
+  KEY = require("../secrets");
+} catch (e) {
+  // fallback
+  console.warn("secret file does not exist");
+  KEY = process.env.API_KEY;
+}
 
 const MAX_REQUEST_QUOTA = 16;
 
-const annonateEndpoint = `https://vision.googleapis.com/v1/images:annotate?key=${KEY ||
-  process.env.KEY}`;
+const annonateEndpoint = `https://vision.googleapis.com/v1/images:annotate?key=${KEY}`;
 
 const singleReq = (img, maxResultsPer) => ({
   image: {
