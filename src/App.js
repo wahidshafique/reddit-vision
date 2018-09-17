@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 
 import "antd/dist/antd.css";
+import { Icon } from "antd";
 
 import { Provider } from "react-redux";
 
@@ -47,7 +48,12 @@ class App extends Component {
       <Provider store={store}>
         <div className="App">
           <header className="App-header">
-            <img src={logo} className="App-logo" alt="logo" />
+            <div className="title-logo-container">
+              <div className="App-logo" alt="logo">
+                <Icon type="eye" theme="outlined" className="central-eye" />
+                <img src={logo} className="App-logo-animate" />
+              </div>
+            </div>
             <h1 className="App-title">
               Welcome to {this.state.validInputs.subreddit}
             </h1>

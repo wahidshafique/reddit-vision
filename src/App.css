@@ -9,8 +9,18 @@ html * {
 }
 
 .App-logo {
+  /* width: 10px; */
+  /* height: 100px; */
+}
+
+.App-logo-animate {
+  position: relative;
+  bottom: 34px;
+  right: 35px;
+  margin: 0 auto;
+  width: 40px;
+  height: 50px;
   animation: App-logo-spin infinite 20s linear;
-  height: 80px;
 }
 
 .App-header {
@@ -60,4 +70,16 @@ html * {
 .error-text {
   font-weight: bold;
   color: red;
+}
+
+.central-eye {
+  position: relative;
+  left: 35px;
+  top: 10px;
+  color: black;
+}
+.central-eye svg {
+  color: #ff451a;
+  width: 100px;
+  height: 100px;
 }

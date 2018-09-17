@@ -5,19 +5,39 @@ import { toggleModal } from "../actions/modalActions";
 import { Modal } from "antd";
 
 class DetailsView extends Component {
+  renderMedia(mediaContent) {
+    if (mediaContent && mediaContent.url !== "") {
+      switch (mediaContent.type) {
+        case "jpg":
+        case "png":
+          return <img className="shown-img" src={mediaContent.url} />;
+        case "gifv":
+          return (
+            <video autoPlay src={mediaContent.url.replace(".gifv", ".mp4")} />
+          );
+        default:
+          break;
+      }
+    }
+  }
+
   render() {
-    const { title, fullImg } = this.props.currentModalDetails;
+    const { fullContent = {}, title, link } = this.props.currentModalDetails;
+    console.log(fullContent);
     return (
       <Modal
         width="50%"
+        okText="Link"
+        onOk={() => window.open(link, "_blank")}
         onCancel={() => this.props.toggleModal(this.props.currentModalVisible)}
         title={title}
         visible={this.props.currentModalVisible}
         key={title}
       >
-        {(fullImg !== "" || !fullImg) && (
-          <img className="shown-img" src={fullImg} />
-        )}
+        {/* {(fullContent.url !== "" || !fullContent) && (
+          <img className="shown-img" src={fullContent.url} />
+        )} */}
+        {this.renderMedia(fullContent)}
       </Modal>
     );
   }

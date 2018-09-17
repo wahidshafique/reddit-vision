@@ -16,9 +16,10 @@ class Posts extends Component {
         details: {
           title: post.title,
           link: `https://www.reddit.com/${post.permalink}`,
-          fullImg: post.fullImg,
+          fullContent: post.fullContent,
           ups: post.ups
-        }
+        },
+        resolvedVision: post.resolvedVision
         //toggleModal: this.toggleModal
       };
       return <PostCard key={post.key} {..._props} />;

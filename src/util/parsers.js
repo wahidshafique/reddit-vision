@@ -3,6 +3,20 @@ import _ from "lodash/fp";
 const getDataRoot = _.curry(d => d.data);
 const reduceData = cb => (acc, data) => [...acc, cb(data)];
 
+const determineMediaType = childData => {
+  const mediaTypes = ["jpg", "png", "gifv", "gif"];
+  const childUrl = childData.url;
+
+  for (let type of mediaTypes) {
+    if (childUrl.includes(type)) {
+      return {
+        type,
+        url: childUrl
+      };
+    }
+  }
+};
+
 const pullUsableRedditData = cb => childData => {
   const _child = cb(childData);
   return {
@@ -11,7 +25,7 @@ const pullUsableRedditData = cb => childData => {
     subreddit: _child.subreddit,
     thumbnail: _child.thumbnail,
     permalink: _child.permalink,
-    fullImg: _child.preview ? _child.preview.images[0].source.url : null,
+    fullContent: determineMediaType(_child),
     ups: _child.ups
   };
 };
@@ -26,28 +40,20 @@ const pullUsableSubRedditData = cb => srData => {
   };
 };
 
-// const generalRedditReduce = _.compose( hmm: TODO: add placeholder here
-//   reduceData,
-//   _.compose(
-//     _,
-//     getDataRoot
-//   )
-// );
+const c = dataHandler =>
+  _.compose(
+    dataHandler,
+    getDataRoot
+  );
 
 const reduceDataChildren = _.compose(
   reduceData,
-  _.compose(
-    pullUsableRedditData,
-    getDataRoot
-  )
+  c(pullUsableRedditData)
 );
 
 const reduceDataSubreddits = _.compose(
   reduceData,
-  _.compose(
-    pullUsableSubRedditData,
-    getDataRoot
-  )
+  c(pullUsableSubRedditData)
 );
 
 const asyncRedditDataCallback = async (callbackAsyncFunc, reduceTo) => {
