@@ -6,7 +6,7 @@ try {
 } catch (e) {
   // fallback
   console.warn("secret file does not exist");
-  KEY = process.env.API_KEY;
+  KEY = process.env.REACT_APP_API_KEY;
 }
 
 const MAX_REQUEST_QUOTA = 16;
