@@ -16,7 +16,7 @@
   "scripts": {
     "startdev": "react-app-env start",
     "start": "react-scripts start",
-    "build": "./scripts/create-env.js && react-scripts build",
+    "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject"
   },
