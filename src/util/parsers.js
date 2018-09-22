@@ -58,7 +58,6 @@ const reduceDataSubreddits = _.compose(
 
 const asyncRedditDataCallback = async (callbackAsyncFunc, reduceTo) => {
   const res = await callbackAsyncFunc();
-  console.log(res);
   if (!res.error) {
     const dataChildren = res.data.children;
     return dataChildren.reduce(reduceTo(), []); //assuming this is static

@@ -24,7 +24,6 @@ class Posts extends Component {
       };
       return <PostCard key={post.key} {..._props} />;
     };
-    //Sconsole.log(this.props.filteredPosts);
     return this.props.filteredPosts.map(genPosts);
   }
 

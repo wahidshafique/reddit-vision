@@ -38,7 +38,6 @@ class PostCard extends Component {
   }
 
   render() {
-    //console.log(this.props);
     const { title, thumbnail, details, resolvedVision } = this.props;
     const { link } = this.props.details;
     return (

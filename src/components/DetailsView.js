@@ -23,7 +23,6 @@ class DetailsView extends Component {
 
   render() {
     const { fullContent = {}, title, link } = this.props.currentModalDetails;
-    console.log(fullContent);
     return (
       <Modal
         width="50%"

@@ -8,7 +8,6 @@ export const fetchPosts = (
   subjectTitle,
   useCloudVision = true
 ) => async dispatch => {
-  console.log("fetching posts");
   let wokePosts;
   const posts = await getParsedChildren(
     getSubject.bind(null, {
@@ -16,8 +15,6 @@ export const fetchPosts = (
       subjectTitle
     })
   );
-
-  console.log(posts);
 
   if (useCloudVision) {
     //gather all to do single shot img req to endpoint
@@ -30,7 +27,6 @@ export const fetchPosts = (
       }
     }, []);
 
-    console.log(imagesArr);
     const labellings = await labelImages({
       imageUris: imagesArr,
       maxResultsPer: 3
@@ -50,7 +46,6 @@ export const fetchPosts = (
           resolvedVision: labellings.responses[index] || "Exception!"
         };
       });
-      console.log("VIS ", wokePosts);
     }
   }
 
